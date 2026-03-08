@@ -1,0 +1,212 @@
+{
+  "code": 200,
+  "data": [
+    {
+      "path": "/home/index",
+      "name": "home",
+      "component": "/home/index",
+      "meta": {
+        "icon": "HomeFilled",
+        "title": "数据看板",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": true,
+        "isKeepAlive": true
+      }
+    },
+    {
+      "path": "/customer",
+      "name": "customer",
+      "redirect": "/customer/list",
+      "meta": {
+        "icon": "User",
+        "title": "客户管理",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      },
+      "children": [
+        {
+          "path": "/customer/list",
+          "name": "customerList",
+          "component": "/customer/list",
+          "meta": {
+            "icon": "Menu",
+            "title": "客户列表",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/customer/vehicle",
+          "name": "vehicleList",
+          "component": "/customer/vehicle",
+          "meta": {
+            "icon": "Van",
+            "title": "车辆管理",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        }
+      ]
+    },
+    {
+      "path": "/repair",
+      "name": "repair",
+      "redirect": "/repair/order",
+      "meta": {
+        "icon": "Setting",
+        "title": "维修管理",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      },
+      "children": [
+        {
+          "path": "/repair/order",
+          "name": "repairOrder",
+          "component": "/repair/order",
+          "meta": {
+            "icon": "Document",
+            "title": "维修工单",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/repair/detail",
+          "name": "repairDetail",
+          "component": "/repair/detail",
+          "meta": {
+            "icon": "View",
+            "title": "工单详情",
+            "isLink": "",
+            "isHide": true,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": false
+          }
+        }
+      ]
+    },
+    {
+      "path": "/parts",
+      "name": "parts",
+      "redirect": "/parts/list",
+      "meta": {
+        "icon": "Box",
+        "title": "配件库存",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      },
+      "children": [
+        {
+          "path": "/parts/list",
+          "name": "partsList",
+          "component": "/parts/list",
+          "meta": {
+            "icon": "Menu",
+            "title": "配件列表",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/parts/inventory",
+          "name": "partsInventory",
+          "component": "/parts/inventory",
+          "meta": {
+            "icon": "Notebook",
+            "title": "出入库记录",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        }
+      ]
+    },
+    {
+      "path": "/reminder",
+      "name": "reminder",
+      "redirect": "/reminder/list",
+      "meta": {
+        "icon": "Bell",
+        "title": "服务提醒",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      },
+      "children": [
+        {
+          "path": "/reminder/list",
+          "name": "reminderList",
+          "component": "/reminder/list",
+          "meta": {
+            "icon": "Menu",
+            "title": "提醒列表",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        }
+      ]
+    },
+    {
+      "path": "/system",
+      "name": "system",
+      "redirect": "/system/user",
+      "meta": {
+        "icon": "Tools",
+        "title": "系统管理",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      },
+      "children": [
+        {
+          "path": "/system/user",
+          "name": "systemUser",
+          "component": "/system/user",
+          "meta": {
+            "icon": "Avatar",
+            "title": "用户管理",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        }
+      ]
+    }
+  ],
+  "message": "成功"
+}

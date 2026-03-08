@@ -1,0 +1,46 @@
+<template>
+  <div>
+    <h2 style="font-size: 24px; font-weight: 600; color: #1a365d; margin-bottom: 24px;">我的提醒</h2>
+    <n-spin :show="loading">
+      <n-empty v-if="!loading && reminders.length === 0" description="暂无提醒" />
+      <n-grid :cols="1" :y-gap="12">
+        <n-gi v-for="r in reminders" :key="r.id">
+          <n-card hoverable style="border-radius: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                  <n-tag :type="typeColors[r.type]" size="small">{{ typeTexts[r.type] }}</n-tag>
+                  <span style="font-weight: 600; color: #1a365d;">{{ r.title }}</span>
+                </div>
+                <p style="color: #6b7280; font-size: 14px;">{{ r.content }}</p>
+              </div>
+              <div style="text-align: right; white-space: nowrap;">
+                <div style="color: #6b7280; font-size: 13px;">{{ r.remindDate }}</div>
+                <n-tag :type="r.status >= 1 ? 'success' : 'warning'" size="small" style="margin-top: 4px;">
+                  {{ r.status === 0 ? '待发送' : r.status === 1 ? '已发送' : '已确认' }}
+                </n-tag>
+              </div>
+            </div>
+          </n-card>
+        </n-gi>
+      </n-grid>
+    </n-spin>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import { getMyReminders } from "@/api";
+
+const loading = ref(false);
+const reminders = ref<any[]>([]);
+const typeTexts: Record<number, string> = { 1: "定期保养", 2: "保险到期", 3: "维修进度", 4: "其他" };
+const typeColors: Record<number, "info"|"success"|"warning"|"default"> = { 1: "info", 2: "success", 3: "warning", 4: "default" };
+
+onMounted(async () => {
+  loading.value = true;
+  try { const res = await getMyReminders() as any; reminders.value = res?.data || []; }
+  catch (e) { console.error(e); }
+  finally { loading.value = false; }
+});
+</script>
