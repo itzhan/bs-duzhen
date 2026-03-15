@@ -121,7 +121,7 @@
         <el-button v-if="orderInfo?.status === 0" type="warning" @click="handleStatusChange(1)"> 开始维修 </el-button>
         <el-button v-if="orderInfo?.status === 1" type="primary" @click="handleStatusChange(2)"> 提交质检 </el-button>
         <el-button v-if="orderInfo?.status === 2" type="success" @click="handleStatusChange(3)"> 完成工单 </el-button>
-        <el-button v-if="orderInfo?.status === 3 && orderInfo?.isPaid !== 1" type="success" @click="handleSettle"> 结算 </el-button>
+        <el-button v-if="orderInfo?.status === 3 && orderInfo?.isPaid !== 1" type="success" @click="handleSettle">结算</el-button>
       </div>
     </el-card>
 

@@ -1,0 +1,97 @@
+# ============================================================
+# 汽车售后维修服务管理平台 - Docker Compose 一键启动
+# ============================================================
+# 使用方式:
+#   启动:  docker compose up -d
+#   停止:  docker compose down
+#   重建:  docker compose up -d --build
+#   查看日志: docker compose logs -f
+# ============================================================
+
+name: car-maintenance
+
+services:
+  # ==================== MySQL 数据库 ====================
+  mysql:
+    image: mysql:8.0
+    container_name: car-maintenance-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ab123168
+      MYSQL_DATABASE: car_maintenance
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+      TZ: Asia/Shanghai
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./sql/data.sql:/docker-entrypoint-initdb.d/02-data.sql:ro
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pab123168"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - car-maintenance-net
+
+  # ==================== 后端服务 ====================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: car-maintenance-backend
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/car_maintenance?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ab123168
+      TZ: Asia/Shanghai
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - car-maintenance-net
+
+  # ==================== 用户前端 ====================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: car-maintenance-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - car-maintenance-net
+
+  # ==================== 管理端 ====================
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    container_name: car-maintenance-admin
+    restart: unless-stopped
+    ports:
+      - "8848:80"
+    depends_on:
+      - backend
+    networks:
+      - car-maintenance-net
+
+# ==================== 数据卷 ====================
+volumes:
+  mysql_data:
+    driver: local
+
+# ==================== 网络 ====================
+networks:
+  car-maintenance-net:
+    driver: bridge

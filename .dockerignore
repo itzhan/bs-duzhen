@@ -1,0 +1,10 @@
+target/
+node_modules/
+dist/
+.logs/
+.pids/
+.git/
+*.log
+*.pid
+.env.local
+.DS_Store
