@@ -2,7 +2,7 @@
 -- 汽车售后维修服务管理平台 - 数据库初始化脚本
 -- 数据库名: car_maintenance
 -- 编码: utf8mb4
--- 角色: 系统管理员 / 顾客 / 维修技师
+-- 角色: 系统管理员 / 顾客 / 维修技师 / 客服
 -- ============================================================
 
 SET NAMES utf8mb4;
@@ -16,6 +16,8 @@ USE car_maintenance;
 -- -----------------------------------------------------------
 -- 1. 系统角色表
 -- -----------------------------------------------------------
+DROP TABLE IF EXISTS chat_message;
+DROP TABLE IF EXISTS chat_conversation;
 DROP TABLE IF EXISTS sys_dict_item;
 DROP TABLE IF EXISTS sys_dict;
 DROP TABLE IF EXISTS service_reminder;
@@ -32,7 +34,7 @@ DROP TABLE IF EXISTS sys_role;
 CREATE TABLE sys_role (
     id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '角色ID',
     role_name VARCHAR(50) NOT NULL COMMENT '角色名称',
-    role_key VARCHAR(50) NOT NULL UNIQUE COMMENT '角色标识(ADMIN/CUSTOMER/TECHNICIAN)',
+    role_key VARCHAR(50) NOT NULL UNIQUE COMMENT '角色标识(ADMIN/CUSTOMER/TECHNICIAN/CUSTOMER_SERVICE)',
     description VARCHAR(200) DEFAULT NULL COMMENT '角色描述',
     status TINYINT NOT NULL DEFAULT 1 COMMENT '状态: 1-启用, 0-禁用',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -272,3 +274,34 @@ CREATE TABLE sys_dict_item (
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     INDEX idx_dict_id (dict_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='数据字典项表';
+
+-- -----------------------------------------------------------
+-- 13. 客服会话表（每个顾客对应一条会话记录）
+-- -----------------------------------------------------------
+CREATE TABLE chat_conversation (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '会话ID',
+    user_id BIGINT NOT NULL COMMENT '顾客用户ID',
+    last_message VARCHAR(500) DEFAULT NULL COMMENT '最新一条消息摘要',
+    last_message_at DATETIME DEFAULT NULL COMMENT '最新消息时间',
+    user_unread INT NOT NULL DEFAULT 0 COMMENT '顾客未读数(客服发来的)',
+    cs_unread INT NOT NULL DEFAULT 0 COMMENT '客服未读数(顾客发来的)',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    UNIQUE INDEX idx_user_id (user_id),
+    INDEX idx_last_message_at (last_message_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='客服会话表';
+
+-- -----------------------------------------------------------
+-- 14. 客服消息表
+-- -----------------------------------------------------------
+CREATE TABLE chat_message (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '消息ID',
+    conversation_id BIGINT NOT NULL COMMENT '会话ID',
+    sender_role VARCHAR(20) NOT NULL COMMENT '发送方角色(USER/CS)',
+    sender_id BIGINT NOT NULL COMMENT '发送者用户ID',
+    content VARCHAR(2000) NOT NULL COMMENT '消息内容',
+    is_read TINYINT NOT NULL DEFAULT 0 COMMENT '接收方是否已读 0/1',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    INDEX idx_conversation_id (conversation_id),
+    INDEX idx_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='客服消息表';

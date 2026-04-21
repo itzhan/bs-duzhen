@@ -178,6 +178,20 @@
       ]
     },
     {
+      "path": "/chat/service",
+      "name": "chatService",
+      "component": "/chat/service",
+      "meta": {
+        "icon": "ChatDotRound",
+        "title": "在线客服",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": false
+      }
+    },
+    {
       "path": "/system",
       "name": "system",
       "redirect": "/system/user",

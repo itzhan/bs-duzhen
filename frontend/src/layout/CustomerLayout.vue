@@ -25,6 +25,7 @@
     <n-layout-footer style="padding: 24px; text-align: center; background: white; border-top: 1px solid #e5e7eb;">
       <div style="color: #6b7280; font-size: 14px;">© 2026 汽车售后维修服务平台</div>
     </n-layout-footer>
+    <ChatWidget />
   </n-layout>
 </template>
 
@@ -35,6 +36,7 @@ import { useUserStore } from "@/stores/user";
 import { NIcon } from "naive-ui";
 import type { MenuOption } from "naive-ui";
 import { HomeOutline, CarSportOutline, CalendarOutline, ConstructOutline, NotificationsOutline, PersonOutline, LogOutOutline } from "@vicons/ionicons5";
+import ChatWidget from "@/components/ChatWidget.vue";
 
 const router = useRouter();
 const route = useRoute();

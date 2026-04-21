@@ -17,7 +17,8 @@ USE car_maintenance;
 INSERT INTO sys_role (id, role_name, role_key, description) VALUES
 (1, '系统管理员', 'ADMIN', '拥有所有系统权限，管理后台'),
 (2, '顾客', 'CUSTOMER', '查看自己的预约、维修进度、提醒，在线支付'),
-(3, '维修技师', 'TECHNICIAN', '接单、维修作业、更新维修状态');
+(3, '维修技师', 'TECHNICIAN', '接单、维修作业、更新维修状态'),
+(4, '客服', 'CUSTOMER_SERVICE', '在线接待顾客咨询');
 
 -- -----------------------------------------------------------
 -- 2. 用户数据 (密码均为 123456，BCrypt加密)
@@ -34,6 +35,7 @@ INSERT INTO sys_role (id, role_name, role_key, description) VALUES
 --   tech1 / 123456       (维修技师-王强)
 --   tech2 / 123456       (维修技师-陈伟)
 --   tech3 / 123456       (维修技师-赵磊)
+--   service / 123456     (客服-小美)
 -- -----------------------------------------------------------
 INSERT INTO sys_user (id, username, password, real_name, phone, email, role_id, status) VALUES
 (1,  'admin',     '$2a$10$23FyDFQH5id1PSodBOqLdO3ruws3PeTNIFbcBOXi4na8VM95pw.8y', '超级管理员', '13800000001', 'admin@carmaint.com', 1, 1),
@@ -47,7 +49,8 @@ INSERT INTO sys_user (id, username, password, real_name, phone, email, role_id, 
 (9,  'customer8', '$2a$10$23FyDFQH5id1PSodBOqLdO3ruws3PeTNIFbcBOXi4na8VM95pw.8y', '黄磊',   '13912345008', NULL, 2, 1),
 (10, 'tech1',     '$2a$10$23FyDFQH5id1PSodBOqLdO3ruws3PeTNIFbcBOXi4na8VM95pw.8y', '王强',   '13800000004', 'wangqiang@carmaint.com', 3, 1),
 (11, 'tech2',     '$2a$10$23FyDFQH5id1PSodBOqLdO3ruws3PeTNIFbcBOXi4na8VM95pw.8y', '陈伟',   '13800000005', 'chenwei@carmaint.com', 3, 1),
-(12, 'tech3',     '$2a$10$23FyDFQH5id1PSodBOqLdO3ruws3PeTNIFbcBOXi4na8VM95pw.8y', '赵磊',   '13800000006', 'zhaolei@carmaint.com', 3, 1);
+(12, 'tech3',     '$2a$10$23FyDFQH5id1PSodBOqLdO3ruws3PeTNIFbcBOXi4na8VM95pw.8y', '赵磊',   '13800000006', 'zhaolei@carmaint.com', 3, 1),
+(13, 'service',   '$2a$10$23FyDFQH5id1PSodBOqLdO3ruws3PeTNIFbcBOXi4na8VM95pw.8y', '客服小美', '13800000007', 'service@carmaint.com', 4, 1);
 
 -- -----------------------------------------------------------
 -- 3. 客户数据（关联 user_id）
@@ -284,6 +287,7 @@ INSERT INTO sys_dict_item (dict_id, item_value, item_label, sort_order) VALUES
 (8, 'CASH',   '现金', 2),
 (8, 'CARD',   '银行卡', 3),
 -- 角色类型
-(9, 'ADMIN',      '系统管理员', 0),
-(9, 'CUSTOMER',   '顾客', 1),
-(9, 'TECHNICIAN', '维修技师', 2);
+(9, 'ADMIN',           '系统管理员', 0),
+(9, 'CUSTOMER',        '顾客', 1),
+(9, 'TECHNICIAN',      '维修技师', 2),
+(9, 'CUSTOMER_SERVICE','客服', 3);
